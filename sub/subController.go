@@ -57,8 +57,9 @@ func (a *SUBController) initRouter(g *gin.RouterGroup) {
 func (a *SUBController) subs(c *gin.Context) {
 	subId := c.Param("subid")
 	var host string
-	host = c.GetHeader("X-Real-IP")
-	
+	if host == "" {
+		host = c.GetHeader("X-Real-IP")
+	}
 	subs, header, err := a.subService.GetSubs(subId, host)
 	if err != nil || len(subs) == 0 {
 		c.String(400, "Error!")
@@ -84,8 +85,9 @@ func (a *SUBController) subs(c *gin.Context) {
 func (a *SUBController) subJsons(c *gin.Context) {
 	subId := c.Param("subid")
 	var host string
-	host = c.GetHeader("X-Real-IP")
-	
+	if host == "" {
+		host = c.GetHeader("X-Real-IP")
+	}
 	jsonSub, header, err := a.subJsonService.GetJson(subId, host)
 	if err != nil || len(jsonSub) == 0 {
 		c.String(400, "Error!")
